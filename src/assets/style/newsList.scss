@@ -1,0 +1,30 @@
+.newsList {
+  height: 100%;
+  overflow: auto;
+  padding: 0 px2rem(20px);
+  .news_box {
+    padding: px2rem(20px) 0;
+    border-bottom: 1px solid #ddd;
+  }
+  .news_title {
+    @include font-dpr(16px);
+    font-weight: bold;
+  }
+  .news_info {
+    @include font-dpr(10px);
+    color: #777;
+    .media_name {
+      margin-right: px2rem(10px);
+    }
+    .datetime {
+      float: right;
+    }
+  }
+  .news_imgs {
+    display: inline-flex;
+    justify-content: space-around;
+    width: 100%;
+    height: px2rem(120px);
+    margin: px2rem(10px) 0;
+  }
+}

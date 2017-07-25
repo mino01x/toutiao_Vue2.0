@@ -1,0 +1,19 @@
+@mixin font-dpr ($font-size) {
+  font-size: $font-size;
+  [data-dpr="2"] & {
+    font-size: $font-size * 2;
+  }
+  [data-dpr="3"] & {
+    font-size: $font-size * 3;
+  }
+}
+
+@function px2rem ($px, $base-font-size: 64px) {
+  @if unitless($px) {
+    @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";
+    @return px2rem($px * 1px);
+  } @else if unit($px) == rem {
+    @return $px;
+  }
+  @return ($px / $base-font-size) * 1rem;
+}

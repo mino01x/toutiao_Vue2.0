@@ -1,0 +1,43 @@
+.fadeIn-enter-active{
+  transition: opacity 1s ease;
+}
+.fadeIn-enter {
+  opacity: 0;
+}
+
+// 小球的过渡
+.bounce-enter-active {
+  animation: ballin 0.6s;
+}
+.bounce-leave-active {
+  animation: ballout 0.4s;
+}
+
+@keyframes ballin {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  40% {
+    transform: translateY(-1 * px2rem(50px));
+  }
+  70% {
+    transform: translateY(0);
+  }
+  90% {
+    transform: translateY(-1 * px2rem(30px));
+  }
+  100% {
+    transform: translateY(0)
+  }
+}
+@keyframes ballout {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+}
