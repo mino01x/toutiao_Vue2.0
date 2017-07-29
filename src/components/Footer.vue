@@ -1,5 +1,5 @@
 <template>
-  <div class="footer_template">
+  <div class="footer">
     <router-link to="/home" class="navItem">
       <Icon type="home" class="navItem-icon"></Icon>
       <span>首页</span>
@@ -22,16 +22,17 @@
 <style lang="scss">
   @import '../assets/style/common.scss';
 
-  .footer_template {
-    position: absolute;
+  .footer {
+    position: fixed;
     bottom: 0;
     left: 0;
-    border-top: 1px solid #aaa;
+    border-top: 1px solid #ddd;
     width: 100%;
     height: px2rem(80px);
     background: #fff;
     display: flex;
     justify-content: center;
+    z-index: 200;
     .navItem {
       flex-grow: 1;
       text-align: center;

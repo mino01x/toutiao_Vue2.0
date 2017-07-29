@@ -1,7 +1,8 @@
 <template>
   <div class="myNav">
-    <div v-for="(item, index) in list" :key="index" class="myNav_item">
+    <div v-for="(item, index) in list" :key="index" class="myNav_item" @click="$emit('click'+index)">
       <span>{{item.msg}}</span>
+      <Icon type="ios-arrow-forward"></Icon>
     </div>
   </div>
 </template>
@@ -19,16 +20,19 @@ export default {
 }
 </script>
 <style lang="scss">
+  @import '../assets/style/common.scss';
+
   .myNav {
-    margin: 0.3rem 0;
+    margin: px2rem(20px) 0;
   }
   .myNav_item {
-    line-height: 1rem;
+    line-height: px2rem(60px);
     background: #fff;
     text-align: center;
+    @include font-dpr(14px);
     span {
       display: inline-block;
-      width: 90%;
+      width: 86%;
       text-align: left;
       border-bottom: 1px solid #ddd;
     }

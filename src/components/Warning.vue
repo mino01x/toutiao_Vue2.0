@@ -18,31 +18,36 @@ export default {
 </script>
 
 <style lang="scss">
+  @import '../assets/style/common.scss';
+
   .myWarning {
-    padding-left: 2rem;
+    padding-left: px2rem(130px);
     width: 80%;
-    height: 3rem;
+    height: px2rem(190px);
     background: #fdece8;
-    border: 0.04rem solid #fbd9d0;
+    border: 1px solid #fbd9d0;
     position: relative;
-    border-radius: 5px;
+    border-radius: px2rem(5px);
+    left: 50%;
+    top: px2rem(100px);
+    transform: translateX(-50%);
   }
   .myWarning-left {
-    height: 1rem;
-    width: 1rem;
+    height: px2rem(64px);
+    width: px2rem(64px);
     background: red;
     border-radius: 50%;
     color: #fff;
-    line-height: 1rem;
+    line-height: px2rem(64px);
     text-align: center;
-    font-size: 0.6rem;
+    font-size: px2rem(40px);
     position: absolute;
-    top: 1rem;
-    left: 0.6rem;
+    top: px2rem(64px);
+    left: px2rem(40px);
   }
   .myWarning-title {
     color: #1c2438;
-    margin-top: 1rem;
+    margin-top: px2rem(64px);
     font-weight: bold;
   }
   .myWarning-content {

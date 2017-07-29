@@ -1,53 +1,30 @@
 <template>
-	<c-template>
-		<div slot="header" class="header">
+  <div>
+		<div class="header home_header">
 			<span class="logo">今天头条</span>
-			<router-link to="/search">
-				<div class="search-box">
-					<Icon type="ios-search" color="#aaa" class="search-icon"></Icon>
-					<input type="text" placeholder="搜索...">
-				</div>
+			<router-link to="/search" tag="div" class="search">
+					<Icon type="ios-search" class="search_icon"></Icon>
+					<div class="search_input">搜索...</div>
 			</router-link>
-		</div>
-		<div slot="content" class="content-box">
-			<div class="home-nav-box">
-				<ul class="home-nav" ref="homeNav">
-					<li v-for="(item, index) in nav" class="nav-item" ref="navItem" :key="item.type">
-						<router-link :to="{path: item.url, query: {type: item.type}}">{{item.text}}</router-link>
-					</li>
-				</ul>
+			<div ref="refresh" class="refresh_icon">
+				<Icon type="android-refresh"></Icon>
 			</div>
-			<c-loading v-show="loading" class="loading"></c-loading>
-			<c-warning v-show="!loading && !ifReturnMsg" class="warning" @reload="getNews({type: $route.query.type})"></c-warning>
-			<transition name="fadeIn">
-				<div class="newsList" v-show="!loading && ifReturnMsg" ref="newsList">
-					<ul>
-						<router-link v-for="(item, index) in listCon" 
-							:key="index" 
-							:to="{path: '/content/' + item.item_id}"
-							tag="li"
-							class="news_box"
-							>
-								<div class="news_title">{{item.title}}</div>
-								<div class="news_imgs" v-if="item.image_list.length">
-									<img v-for="(img, index) in item.image_list" v-lazy="img.url" style="width: 30%" :key="index">
-								</div>
-								<div class="news_info">
-									<span class="media_name">{{item.media_name}}</span>
-									<span class="comment_count">评论 {{item.comment_count}}</span>
-									<span class="datetime">{{item.datetime|dateFormat}}</span>
-								</div>
-						</router-link>
-					</ul>
-					<c-loadmore flag="loadmore" ifFlag="ifReturnMore" @event="loadmore"></c-loadmore>
-					<transition name="bounce">
-						<c-top @back="backToTop" v-show="ifTop"></c-top>
-					</transition>
-				</div>
-			</transition>
 		</div>
-		<c-footer slot="footer"></c-footer>
-	</c-template>
+		<div class="content home_content">
+      <c-home-nav></c-home-nav>
+			<c-loading v-show="loading" class="loading"></c-loading>
+			<c-warning v-show="!loading && !ifReturnMsg" class="warning" @reload="getNews({type: $route.params.type})"></c-warning>
+			 <transition name="fadeIn"> 
+         <c-newslist
+          :listCon="listCon"
+          v-show="!loading && ifReturnMsg"
+					@event="loadmoreNews"
+					:flag="loadmore"
+					:ifFlag="ifReturnMore"></c-newslist>
+			 </transition> 
+		</div>
+		<c-footer></c-footer>
+	</div>
 </template>
 
 <script>
@@ -57,26 +34,15 @@ import CLoading from '../components/Loading.vue'
 import CWarning from '../components/Warning.vue'
 import CTop from '../components/Top.vue'
 import CLoadmore from '../components/Loadmore.vue'
+import CHomeNav from '../components/HomeNav.vue'
+import CNewslist from '../components/Newslist.vue'
 import moment from 'moment'
 import { mapActions, mapState } from 'vuex'
 
 export default {
 	data () {
 		return {
-			nav: [
-				{url: '/home/all', type: '__all__', text: '推荐'},
-				{url: '/home/hot', type: 'news_hot', text: '热点'},
-				{url: '/home/society', type: 'news_society', text: '社会'},
-				{url: '/home/entertainment', type: 'news_entertainment', text: '娱乐'},
-				{url: '/home/tech', type: 'news_tech', text: '科技'},
-				{url: '/home/car', type: 'news_car', text: '汽车'},
-				{url: '/home/sports', type: 'news_sports', text: '体育'},
-				{url: '/home/finance', type: 'news_finance', text: '财经'},
-				{url: '/home/military', type: 'news_military', text: '军事'},
-				{url: '/home/word', type: 'news_world', text: '国际'},
-				{url: '/home/fashion', type: 'news_fashion', text: '时尚'}
-			],
-			ifTop: false
+			touchPosition: 0
 		}
 	},
 	components: {
@@ -85,77 +51,89 @@ export default {
 		CLoading,
 		CWarning,
 		CLoadmore,
-		CTop
+    CTop,
+    CHomeNav,
+    CNewslist
 	},
 	created () {
-		let type = this.$route.query.type || '__all__'
+		console.log('home.vue created')
+		let that = this
+		let type = this.$route.params.type
 		if (Object.keys(this.list[type]).length > 0) return false
 		this.getNews({
 			type: type
 		})
-	},
-	mounted () {
-		this.$refs.newsList.addEventListener('scroll', this.showball)
+		document.body.addEventListener('touchstart', function (e) {
+			if (!that.$route.params.type) return false
+			that.touchPosition = e.touches[0].pageY
+			that.$refs.refresh.style.transition = ''
+		})
+		document.body.addEventListener('touchmove', function (e) {
+			if (!that.$route.params.type) return false
+			const disY = e.touches[0].pageY - that.touchPosition
+			const rotate = disY / 300 * 360
+			if (disY > 200 || disY < 30) return false
+			that.$refs.refresh.style.transform = `translate(-50%, ${disY}px) rotate(${rotate}deg)`
+		})
+		document.body.addEventListener('touchend', function (e) {
+			if (!that.$route.params.type) return false
+			const disY = e.changedTouches[0].pageY - that.touchPosition
+			if (disY < 30) return false
+			that.$refs.refresh.style.transform = ''
+			that.$refs.refresh.style.transition = 'transform 0.5s linear'
+			if (disY < 200) return false
+			console.log(that.$route.params)
+			that.refreshNews({
+				type: that.$route.params.type
+			})
+		})
 	},
 	watch: {
 		$route (to, from) {
-			const type = to.query.type || '__all__'
-			if (Object.keys(this.list[type]).length > 0) {
-				this.$store.state.ifReturnMsg = true
-				return false
+			console.log('i am watching in home.vue')
+			if (to.path.includes('home')) {
+				const type = to.params.type
+				console.log(type)
+				if (Object.keys(this.list[type]).length > 0) {
+					this.$store.state.ifReturnMsg = true
+					return false
+				}
+				this.getNews({
+					type: to.params.type
+				})
 			}
-			this.getNews({
-				type: to.query.type
-			})
+		},
+		ifReturnRefresh (val, oldVal) {
+			if (val && this.newsLength) {
+				console.log(this.newsLength)
+				this.$Message.success(`为您刷新${this.newsLength}条信息`)
+			}
 		}
 	},
 	methods: {
 		...mapActions([
 			'getNews',
-			'getMoreNews'
+			'getMoreNews',
+			'refreshNews'
 		]),
-		backToTop () {
-			const that = this
-			if (!window.requestAnimationFrame) {
-				let timer = setInterval(() => {
-					let top = that.$refs.newsList.scrollTop
-					if (top <= 0) {
-						clearInterval(timer)
-						that.$refs.newsList.scrollTop = 0
-						return false
-					}
-					that.$refs.newsList.scrollTop = top - (top - 0) / 10
-				}, 30)
-				return false
-			}
-			function transform () {
-				let top = that.$refs.newsList.scrollTop
-				if (top <= 0) {
-					that.$refs.newsList.scrollTop = 0
-					return false
-				}
-				that.$refs.newsList.scrollTop = top - (top - 0) / 10
-				window.requestAnimationFrame(transform)
-			}
-			window.requestAnimationFrame(transform)
-		},
-		loadmore () {
+		loadmoreNews () {
 			this.getMoreNews({
-				type: this.$route.query.type
+				type: this.$route.params.type
 			})
-		},
-		showball () {
-			this.ifTop = this.$refs.newsList.scrollTop > 600
 		}
 	},
 	computed: {
 		...mapState([
 			'list',
 			'loading',
-			'ifReturnMsg'
+			'ifReturnMsg',
+			'loadmore',
+			'ifReturnMore',
+			'newsLength',
+			'ifReturnRefresh'
 		]),
 		listCon () {
-			return this.list[this.$route.query.type]
+			return this.list[this.$route.params.type || '__all__']
 		}
 	},
 	filters: {
@@ -170,71 +148,46 @@ export default {
 </script>
 <style lang="scss">
 	@import '../assets/style/common.scss';
-	@import '../assets/style/transition.scss';
 
-	.header {
+	.home_header {
 		background: red;
+		.refresh_icon {
+			font-size: px2rem(50px);
+			color: lightgreen;
+			position: absolute;
+			top: px2rem(80px);
+			left: 50%;
+			transform: translateX(-50%);
+		}
 	}
 	.logo { 
 		font-size: px2rem(40px);
 		color: #fff;
 		line-height: px2rem(80px);
-		font-family: 微软雅黑;
 		padding: 0 px2rem(40px);
 		font-weight: bold;
 	}
-	.search-box {
+	.search {
 		position: absolute;
 		right: px2rem(30px);
 		top: px2rem(15px);
 		font-size: px2rem(26px);
-		.search-icon {
+		.search_icon {
 			position: absolute;
 			top: px2rem(12px);
 			left: px2rem(12px);
 		}
-		input {
+		.search_input {
 			width: px2rem(300px);
 			height: px2rem(50px);
 			text-indent: px2rem(50px);
 			border: 1px solid #aaa;
 			border-radius: px2rem(10px);
+			background: #fff;
+			line-height: px2rem(50px);
 		}
-	}
-	.content-box {
-		box-sizing: border-box;
-		padding-top: px2rem(60px);
-		height: 100%;
-	}
-	.home-nav-box {
-		background: #eee;
-		width: 100%;
-		overflow: scroll;
-		position: absolute;
-		top: px2rem(80px);
-		font-size: px2rem(26px);
-		z-index: 100;
-		line-height: px2rem(60px);
-	}
-	.home-nav {
-		display: flex;
-		.nav-item {
-			flex-shrink: 0;
-			flex-basis: px2rem(80px);
-			text-align: center;
-			a {
-				color: #000;
-			}
-			.router-link-active {
-				color: tomato;
-				font-weight: bold;
-			}
-		}
-	}
-	.loading {
-		margin: px2rem(190px) auto;
-	}
-	.warning {
-		margin: px2rem(190px) auto;
-	}
+  }
+  .home_content {
+    padding-top: px2rem(140px);
+  }
 </style>

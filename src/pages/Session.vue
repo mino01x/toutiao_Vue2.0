@@ -1,7 +1,7 @@
 <template>
-  <c-template>
-    <c-back slot="header"></c-back> 
-    <div slot="content">
+  <div>
+    <c-back class="header"></c-back>
+    <div class="content">
       <ul class="session">
         <li v-for="(item, index) in session" :key="index" class="session-item">
           <div class="session-user">
@@ -18,16 +18,17 @@
           </div>
         </li>
       </ul>
-      <c-loadmore flag="loadmoreSession" ifFlag="ifReturnSession" @event="$store.dispatch('getSession')"></c-loadmore>
+      <c-loadmore :flag="loadmoreSession" :ifFlag="ifReturnSession" @event="$store.dispatch('getSession')"></c-loadmore>
     </div>
-    <c-footer slot="footer"></c-footer>
-  </c-template>
+    <c-footer></c-footer>
+  </div>
 </template>
 <script>
 import CTemplate from '../components/Template.vue'
 import CFooter from '../components/Footer.vue'
 import CBack from '../components/Back.vue'
 import CLoadmore from '../components/Loadmore.vue'
+import { mapState } from 'vuex'
 
 export default {
   components: {
@@ -43,7 +44,11 @@ export default {
   computed: {
     session () {
       return this.$store.state.session
-    }
+    },
+    ...mapState([
+      'loadmoreSession',
+      'ifReturnSession'
+    ])
   }
 }
 </script>
@@ -66,6 +71,7 @@ export default {
         vertical-align: middle;
         border-radius: 50%;
         width: px2rem(60px);
+        height: px2rem(60px);
       }
       .session-user-name {
         @include font-dpr(16px);

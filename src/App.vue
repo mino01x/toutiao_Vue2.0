@@ -1,28 +1,63 @@
 <template>
   <div id="app">
-    <router-view></router-view>
+     <transition :name="page"> 
+       <keep-alive> 
+        <router-view class="container"></router-view>
+       </keep-alive> 
+     </transition> 
+     <c-top></c-top>
+    <!-- <component :is="footer"></component> -->
   </div>
 </template>
 
 <script>
+import CFooter from './components/Footer.vue'
+import CTop from './components/Top.vue'
+
 export default {
-  name: 'app'
+  name: 'app',
+  data () {
+    return {
+      page: ''
+    }
+  },
+  components: {
+    CFooter,
+    CTop
+  },
+  computed: {
+    footer () {
+      console.log(this.$route.path)
+      return 'c-footer'
+    }
+    // page () {
+    //   console.log(this.$route.)
+    //   return 'content'
+    // }
+  },
+  watch: {
+    $route (to, from) {
+      if (to.path.includes('content')) {
+        this.page = 'content-right'
+      } else if (from.path.includes('content')) {
+        this.page = 'content-left'
+      } else {
+        this.page = 'fadeIn'
+      }
+      // this.page = to.path.includes('content') || from.path.includes('content') ? 'content' : ''
+    }
+  }
+  // beforeRouteUpdate (to, from, next) {
+  //   console.log('beforeRouteUpdate')
+  //   this.page = to.path.includes('content') ? 'content' : ''
+  //   // next()
+  // }
 }
 </script>
 
 <style lang="scss">
-@import './assets/style/common.scss';
-@import './assets/style/newsList.scss';
-
-body, ul {
-  margin: 0;
-  padding: 0;
-}
-#app {
-  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  -webkit-overflow-scrolling: touch;
-}
+  @import './assets/style/common.scss';
+  @import './assets/style/newsList.scss';
+  @import './assets/style/global.scss';
+  @import './assets/style/transition.scss';
 </style>

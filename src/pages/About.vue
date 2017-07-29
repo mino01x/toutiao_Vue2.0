@@ -1,59 +1,110 @@
 <template>
   <div class="about_template">
-    <div class="about_login">login</div>
-    <div class="about_myInfo"></div>
-    <c-nav :list="list[0]"></c-nav>
-    <c-nav :list="list[1]"></c-nav>
-    <c-nav :list="list[2]"></c-nav>
-    <c-footer slot="footer"></c-footer>
+    <div class="about_login">
+      <div class="login_icon" @click="open">
+        <Icon type="social-github" color="#fff"></Icon>
+      </div>
+    </div>
+    <c-nav :list="list[0]" @click0="github"></c-nav>
+    <c-nav :list="list[1]" @click0="open" @click1="open" @click2="open"></c-nav>
+    <c-nav :list="list[2]" @click0="open" @click1="open" @click2="open"></c-nav>
+    <Modal v-model="ifModal" class-name="del_dialog">
+      <p slot="header" class="del_header">
+        <Icon type="information-circled"></Icon>
+        <span>待解封</span>
+      </p>
+      <div class="del_content">
+        <p>隐藏着黑暗力量的钥匙啊,在我面前显示你真正的力量！现在以你的主人，小花之名命令你——封印解除！  </p>
+        <p>封印解除失败</p>
+      </div>
+      <div slot="footer" class="del_footer">
+        <Button type="error" size="large" long @click="close">放弃</Button>
+      </div>
+    </Modal>
+    <c-footer></c-footer>
   </div>
 </template>
 <script>
-import CTemplate from '../components/Template.vue'
-import CFooter from '../components/Footer.vue'
-import CBack from '../components/Back.vue'
 import CNav from '../components/Nav.vue'
+import CFooter from '../components/Footer.vue'
 
 export default {
   components: {
-    CTemplate,
-    CFooter,
-    CBack,
-    CNav
+    CNav,
+    CFooter
   },
   data () {
     return {
       list: [
         [
-          {msg: 'hello'}
+          {msg: 'Github'}
         ],
         [
-          {msg: 'hello'},
-          {msg: 'hello'}
+          {msg: '待解封'},
+          {msg: '待解封'}
         ],
         [
-          {msg: 'hello'},
-          {msg: 'hello'},
-          {msg: 'hello'}
+          {msg: '待解封'},
+          {msg: '待解封'},
+          {msg: '待解封'}
         ]
-      ]
+      ],
+      ifModal: false
+    }
+  },
+  methods: {
+    github () {
+      window.open('https://github.com/huahua-chen')
+    },
+    close () {
+      this.ifModal = false
+    },
+    open () {
+      this.ifModal = true
     }
   }
 }
 </script>
-<style>
+<style lang="scss">
+  @import '../assets/style/common.scss';
+
   .about_template {
     background: #eee;
-    height: 100vh;
     overflow: auto;
   }
   .about_login {
-    height: 4rem;
-    max-height: 30vh;
-    background: #aaa;
+    height: 6rem;
+    background: url('../assets/image/data.jpg');
+    background-size: cover;
+    // filter: blur(1px);
+    position: relative;
+    .login_icon {
+      font-size: px2rem(120px);
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+    }
   }
   .about_myInfo {
     height: 2rem;
     background: #fff;
+  }
+  .del_dialog {
+    top: px2rem(80px);
+    width: 9rem;
+    margin: auto;
+    text-align:center;
+    .del_footer, .del_header, .del_content {
+      @include font-dpr(14px);
+      button {
+        @include font-dpr(12px);
+      }
+    }
+    .del_header{
+      height: px2rem(40px);
+      line-height: px2rem(40px);
+      color:#f60;
+    }
   }
 </style>

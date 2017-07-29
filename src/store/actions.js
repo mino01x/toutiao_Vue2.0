@@ -4,6 +4,7 @@ import jsonp from 'jsonp'
 
 export default {
   getNews ({ commit, state }, payload) {
+    console.log('getnews')
     state.loading = true
     state.ifReturnMore = true
     if (payload.type) {
@@ -37,7 +38,8 @@ export default {
       commit(type.GET_ARTICLE, {
         title: data.title,
         detail_source: data.detail_source,
-        content: data.content
+        content: data.content,
+        src: data.media_user ? data.media_user.avatar_url : 'https://raw.githubusercontent.com/Huahua-Chen/images/master/images_inBlog/logo.jpg'
       })
     })
   },
@@ -74,17 +76,63 @@ export default {
           data: res.data
         })
       })
+  },
+  getSearch ({commit}, { offset, keyword }) {
+    console.log('getSearch start')
+    commit('IF_LOADING', true)
+    commit('RETURN_SEARCH', false)
+    jsonp('https://www.toutiao.com/search_content/?offset=' + offset + '&format=json&keyword=' + keyword + '&autoload=true&count=20&cur_tab=1',
+      { timeout: 3000 },
+      function (err, res) {
+        commit('IF_LOADING', false)
+        if (err) {
+          console.log(err)
+          return false
+        }
+        commit('RETURN_SEARCH', true)
+        commit('GET_SEARCH', {
+          data: res.data,
+          keyword
+        })
+      })
+  },
+  getMoreSearch ({ commit }, { offset, keyword }) {
+    console.log('getmoresearch actions.js')
+    console.log(offset, keyword)
+    commit('LOADMORE_SEARCH', true)
+    jsonp('https://www.toutiao.com/search_content/?offset=' + offset + '&format=json&keyword=' + keyword + '&autoload=true&count=20&cur_tab=1',
+      { timeout: 3000 },
+      function (err, res) {
+        commit('LOADMORE_SEARCH', false)
+        if (err) {
+          console.log(err)
+          commit('RETURN_MORE_SEATCH', false)
+          return false
+        }
+        commit('GET_SEARCH', {
+          data: res.data,
+          keyword
+        })
+      })
+  },
+  // 刷新新闻
+  refreshNews ({ commit, state }, payload) {
+    console.log('refresh')
+    state.ifReturnRefresh = false
+    if (payload.type) {
+      jsonp('http://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
+        { timeout: 3000 },
+        function (err, res) {
+          if (err || res.data.length === 0) {
+            console.log(err)
+            return false
+          }
+          commit(type.REFRESH_LENGTH, res.return_count)
+          commit(type.REFRESH_NEWS, {
+            type: payload.type,
+            data: res.data
+          })
+        })
+    }
   }
-  // getSearch ({commit}, payload) {
-  //   console.log('getSearch start')
-  //   jsonp('https://m.toutiao.com/baidu_top_words/?csrfmiddlewaretoken=undefined',
-  //   {timeout: 3000},
-  //   function (err, res) {
-  //     console.log('callback')
-  //     if (err) {
-  //       return false
-  //     }
-  //     console.log(res)
-  //   })
-  // }
 }

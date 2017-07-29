@@ -8,7 +8,7 @@
 
   .myBack {
     border-bottom: 1px solid #ddd;
-
+    background: #fff;
   }
   .back-btn {
     font-size: px2rem(50px);

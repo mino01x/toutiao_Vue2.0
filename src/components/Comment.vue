@@ -1,24 +1,42 @@
 <template>
   <div class="myComment">
-    <div class="comment-box">
+    <div class="comment-box" @click="$emit('comment')">
       <Icon type="edit"></Icon>
       <span>写评论...</span>
     </div>
-    <Icon type="share" class="comment-icon"></Icon>
-    <Icon type="ios-star-outline" class="comment-icon"></Icon>
+    <span @click="$emit('share')">
+      <Icon type="share" class="comment-icon"></Icon>
+    </span>
+    <span @click="$emit('star')">
+      <Icon type="ios-star-outline" class="comment-icon" v-if="!ifStar"></Icon>
+      <Icon type="star" class="comment-icon" v-else color="red"></Icon>
+    </span>
   </div>
 </template>
+<script>
+export default {
+  computed: {
+    ifStar () {
+      let id = this.$route.params.id
+      let index = this.$store.state.localCollection.findIndex(item => item.id === id)
+      return index !== -1
+    }
+  }
+}
+</script>
+
 <style lang="scss">
   @import '../assets/style/common.scss';
 
   .myComment {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     border-top: 1px solid #ddd;
     width: 100%;
-    z-index: 200;
+    z-index: 400;
     line-height: px2rem(80px);
+    background: #fff;
   }
   .comment-box {
     background: #eee;

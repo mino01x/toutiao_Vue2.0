@@ -1,0 +1,52 @@
+body, ul {
+  margin: 0;
+  padding: 0;
+}
+#app {
+  font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #2c3e50;
+}
+#app>.container {
+  min-height: 100vh;
+  width: 100vw;
+}
+.header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: px2rem(80px);
+  z-index: 200;
+}
+.content {
+  box-sizing: border-box;
+  padding: px2rem(80px) 0;
+}
+
+.ivu-message-custom-content {
+  @include font-dpr(14px);
+  vertical-align: middle;
+  height: px2rem(40px);
+  display: flex;
+  align-items: center;
+}
+
+.del_dialog {
+  top: px2rem(80px);
+  width: 9rem;
+  margin: auto;
+  text-align:center;
+  .del_footer, .del_header, .del_content {
+    @include font-dpr(14px);
+    button {
+      @include font-dpr(12px);
+    }
+  }
+  .del_header{
+    height: px2rem(40px);
+    line-height: px2rem(40px);
+    color:#f60;
+  }
+}
