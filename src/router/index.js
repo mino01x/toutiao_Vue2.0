@@ -45,6 +45,7 @@ const routes = [
     redirect: '/home/__all__'
   }
 ]
+
 // const scrollBehavior = (to, from, savedPosition) => {
 //   if (savedPosition) {
 //     return savedPosition
@@ -59,10 +60,42 @@ const routes = [
 const router = new Router({
   routes
 })
+// 保存滚动条原来的位置
+router.beforeEach((to, from, next) => {
+  from.meta.savedPosition = document.body.scrollTop || document.documentElement.scrollTop
+  next()
+})
+router.afterEach((to, from) => {
+  // if (to.meta.savedPosition) {
+  //   if (to.path.includes('content')) to.meta.savedPosition = 0
+  //   console.log('has to.savedPosition after 2', to.meta.savedPosition)
+  //   setTimeout(() => {
+  //     window.scrollTo(0, to.meta.savedPosition)
+  //   }, 900)
+  // } else {
+  //   setTimeout(() => {
+  //     window.scrollTo(0, 0)
+  //   }, 900)
+  // }
+  console.log(from.meta.savedPosition, to.meta.savedPosition)
+  let flag = to.path.includes('content') || from.path.includes('content')
+  let time = flag ? 900 : 100
+  document.addEventListener('transitionend', scroll(to, from, time))
+})
 
-// router.beforeEach((to, from, next) => {
-//   from.meta.savedPosition = { x: 0, y: document.body.scrollTop }
-//   next()
-// })
-
+function scroll (to, from, time) {
+  if (to.meta.savedPosition) {
+    if (to.path.includes('content')) to.meta.savedPosition = 0
+    // window.scrollTo(0, to.meta.savedPosition)
+    setTimeout(() => {
+      window.scrollTo(0, to.meta.savedPosition)
+    }, time)
+  } else {
+    // window.scrollTo(0, 0)
+    setTimeout(() => {
+      window.scrollTo(0, 0)
+    }, time)
+  }
+  // document.removeEventListener('transitionend', scroll)
+}
 export default router

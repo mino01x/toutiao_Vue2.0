@@ -56,7 +56,6 @@ export default {
 		document.body.addEventListener('touchstart', function (e) {
 			if (!that.$route.params.type) return false
 			if (document.body.scrollTop <= 0) {
-				console.log(document.body.scrollTop)
 				that.touchPosition = e.touches[0].pageY
 				that.$refs.refresh.style.transition = ''
 				document.body.addEventListener('touchmove', that.touchmove)

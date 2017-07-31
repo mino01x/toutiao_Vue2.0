@@ -24,12 +24,6 @@ export default {
     CFooter,
     CTop
   },
-  computed: {
-    footer () {
-      console.log(this.$route.path)
-      return 'c-footer'
-    }
-  },
   watch: {
     $route (to, from) {
       if (to.path.includes('content')) {

@@ -17,7 +17,7 @@
 .content-right-enter-active, .content-right-leave-active,
 .content-left-enter-active, .content-left-leave-active {
   position: fixed;
-  transition: transform 0.8s linear;
+  transition: transform 0.6s linear;
   height: 100vh;
   overflow: hidden;
 }
