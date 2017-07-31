@@ -6,7 +6,6 @@ import Collect from '../pages/Collect'
 import Session from '../pages/Session'
 import About from '../pages/About'
 import Content from '../pages/Content.vue'
-// import CNewslist from '../components/Newslist.vue'
 
 Vue.use(Router)
 
@@ -46,21 +45,24 @@ const routes = [
     redirect: '/home/__all__'
   }
 ]
-const scrollBehavior = (to, from, savedPosition) => {
-  if (savedPosition) {
-    return savedPosition
-  }
-}
+// const scrollBehavior = (to, from, savedPosition) => {
+//   if (savedPosition) {
+//     return savedPosition
+//   } else if (to.meta.savedPosition) {
+//     console.log("the route's savedPosition", to.meta.savedPosition.y)
+//     return to.meta.savedPosition
+//   } else {
+//     console.log('no savedPosition')
+//   }
+// }
 
 const router = new Router({
-  mode: 'history',
-  routes,
-  scrollBehavior
+  routes
 })
 
-router.beforeEach((to, from, next) => {
-  from.meta.savedPosition = { x: 0, y: document.body.scrollTop }
-  next()
-})
+// router.beforeEach((to, from, next) => {
+//   from.meta.savedPosition = { x: 0, y: document.body.scrollTop }
+//   next()
+// })
 
 export default router

@@ -6,8 +6,6 @@ export const GET_SESSION = 'GET_SESSION'
 
 export const GET_COLLECTION = 'GET_COLLECTION'
 
-export const SAVE_POSITION = 'SAVE_POSITION'
-
 export const GET_SEARCH = 'GET_SEARCH'
 
 export const RETURN_SEARCH = 'RETURN_SEARCH'

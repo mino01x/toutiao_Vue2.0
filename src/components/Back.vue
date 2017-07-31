@@ -12,7 +12,7 @@
   }
   .back-btn {
     font-size: px2rem(50px);
-    line-height: px2rem(80px);
+    line-height: px2rem(80px) !important;
     text-indent: px2rem(20px);
     cursor: pointer;
   }

@@ -54,7 +54,7 @@ export default {
   },
   methods: {
     github () {
-      window.open('https://github.com/huahua-chen')
+      window.open('https://github.com/Huahua-Chen/toutiao_Vue2.0')
     },
     close () {
       this.ifModal = false
@@ -71,6 +71,7 @@ export default {
   .about_template {
     background: #eee;
     overflow: auto;
+    padding-bottom: px2rem(80px);
   }
   .about_login {
     height: 6rem;
@@ -90,21 +91,5 @@ export default {
     height: 2rem;
     background: #fff;
   }
-  .del_dialog {
-    top: px2rem(80px);
-    width: 9rem;
-    margin: auto;
-    text-align:center;
-    .del_footer, .del_header, .del_content {
-      @include font-dpr(14px);
-      button {
-        @include font-dpr(12px);
-      }
-    }
-    .del_header{
-      height: px2rem(40px);
-      line-height: px2rem(40px);
-      color:#f60;
-    }
-  }
+
 </style>

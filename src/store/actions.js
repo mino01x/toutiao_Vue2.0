@@ -4,11 +4,10 @@ import jsonp from 'jsonp'
 
 export default {
   getNews ({ commit, state }, payload) {
-    console.log('getnews')
     state.loading = true
     state.ifReturnMore = true
     if (payload.type) {
-      jsonp('http://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
+      jsonp('https://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
         { timeout: 3000 },
         function (err, res) {
           state.loading = false
@@ -24,9 +23,10 @@ export default {
         })
     }
   },
+  // 获取文章
   getArticle ({commit, state}, payload) {
     state.loading = true
-    jsonp('http://m.toutiao.com/i' + payload.id + '/info/', { timeout: 3000 }, function (err, res) {
+    jsonp('https://m.toutiao.com/i' + payload.id + '/info/', { timeout: 3000 }, function (err, res) {
       state.loading = false
       if (err) {
         console.log(err)
@@ -43,9 +43,10 @@ export default {
       })
     })
   },
+  // 获取更多新闻
   getMoreNews ({commit, state}, payload) {
     state.loadmore = true
-    jsonp('http://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
+    jsonp('https://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
       { timeout: 3000 }, function (err, res) {
         state.loadmore = false
         if (err) {
@@ -60,6 +61,7 @@ export default {
         })
       })
   },
+  // 获取段子
   getSession ({commit, state}, payload) {
     state.loadmoreSession = true
     jsonp('https://www.toutiao.com/api/article/feed/?category=essay_joke&utm_source=toutiao&widen=1&max_behot_time=1500114422&max_behot_time_tmp=1500114422&tadrequire=true&as=A1F52966E9EEF00&cp=59692E6FD0E09E1',
@@ -77,8 +79,8 @@ export default {
         })
       })
   },
+  // 获取搜索
   getSearch ({commit}, { offset, keyword }) {
-    console.log('getSearch start')
     commit('IF_LOADING', true)
     commit('RETURN_SEARCH', false)
     jsonp('https://www.toutiao.com/search_content/?offset=' + offset + '&format=json&keyword=' + keyword + '&autoload=true&count=20&cur_tab=1',
@@ -96,9 +98,8 @@ export default {
         })
       })
   },
+  // 获取更多搜索
   getMoreSearch ({ commit }, { offset, keyword }) {
-    console.log('getmoresearch actions.js')
-    console.log(offset, keyword)
     commit('LOADMORE_SEARCH', true)
     jsonp('https://www.toutiao.com/search_content/?offset=' + offset + '&format=json&keyword=' + keyword + '&autoload=true&count=20&cur_tab=1',
       { timeout: 3000 },
@@ -117,10 +118,9 @@ export default {
   },
   // 刷新新闻
   refreshNews ({ commit, state }, payload) {
-    console.log('refresh')
     state.ifReturnRefresh = false
     if (payload.type) {
-      jsonp('http://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
+      jsonp('https://m.toutiao.com/list/?tag=' + payload.type + '&ac=wap&count=20&format=json_raw&as=A125A8CEDCF8987&cp=58EC18F948F79E1&min_behot_time=' + parseInt(new Date().getTime() / 1000),
         { timeout: 3000 },
         function (err, res) {
           if (err || res.data.length === 0) {

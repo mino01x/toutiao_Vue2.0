@@ -17,6 +17,7 @@ export default {
     }
   },
   computed: {
+    // 请求失败变换显示内容
     msg () {
       if (this.ifFlag) {
         return '点击加载更多...'

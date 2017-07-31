@@ -32,7 +32,6 @@
 import {mapActions, mapState, mapMutations} from 'vuex'
 import CLoading from '../components/Loading.vue'
 import CWarning from '../components/Warning.vue'
-import CTemplate from '../components/Template.vue'
 import CBack from '../components/Back.vue'
 import CComment from '../components/Comment.vue'
 
@@ -43,14 +42,12 @@ export default {
     }
   },
   components: {
-    CTemplate,
     CLoading,
     CWarning,
     CBack,
     CComment
   },
   created () {
-    console.log('content.vue created')
     let id = this.$route.params.id
     this.getArticle({id: id})
   },
@@ -70,7 +67,6 @@ export default {
       'getArticle'
     ]),
     addCollection () {
-      console.log('content.vue addCollection')
       let id = this.$route.params.id
       let index = this.localCollection.findIndex(item => {
         return item.id === id

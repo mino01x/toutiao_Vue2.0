@@ -16,6 +16,7 @@
 <script>
 export default {
   computed: {
+    // 判断文章是否被收藏过
     ifStar () {
       let id = this.$route.params.id
       let index = this.$store.state.localCollection.findIndex(item => item.id === id)
@@ -54,9 +55,8 @@ export default {
   }
   .comment-icon {
     font-size: px2rem(50px);
-    line-height: px2rem(80px);
+    line-height: px2rem(80px) !important;
     float: right;
     margin-right: px2rem(40px);
   }
 </style>
-

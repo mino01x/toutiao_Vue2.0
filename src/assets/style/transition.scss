@@ -16,32 +16,19 @@
 // 页面过渡
 .content-right-enter-active, .content-right-leave-active,
 .content-left-enter-active, .content-left-leave-active {
-  position: absolute;
-  transition: transform 0.6s linear;
+  position: fixed;
+  transition: transform 0.8s linear;
   height: 100vh;
   overflow: hidden;
 }
 .content-right-leave-active,
 .content-left-enter {
-  transform: translateX(10rem)
+  transform: translateX(100vw)
 }
 .content-right-enter,
 .content-left-leave-active {
-  transform: translateX(-10rem)
+  transform: translateX(-100vw)
 }
-
-// .content-left-enter-active, .content-left-leave-active {
-//   position: absolute;
-//   transition: transform 5s linear;
-//   height: 100vh;
-//   overflow: hidden;
-// }
-// .content-left-leave-active {
-//   transform: translateX(-10rem)
-// }
-// .content-left-enter {
-//   transform: translateX(10rem)
-// }
 
 // 历史
 .slide-enter-to, .slide-leave-to {

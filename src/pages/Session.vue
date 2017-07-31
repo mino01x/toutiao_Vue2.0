@@ -24,7 +24,6 @@
   </div>
 </template>
 <script>
-import CTemplate from '../components/Template.vue'
 import CFooter from '../components/Footer.vue'
 import CBack from '../components/Back.vue'
 import CLoadmore from '../components/Loadmore.vue'
@@ -32,7 +31,6 @@ import { mapState } from 'vuex'
 
 export default {
   components: {
-    CTemplate,
     CFooter,
     CBack,
     CLoadmore

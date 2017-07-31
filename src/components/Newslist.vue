@@ -26,20 +26,23 @@
 <script>
 import { mapState } from 'vuex'
 import CLoadmore from './Loadmore.vue'
-import CTop from './Top.vue'
 import moment from 'moment'
 
 export default {
   props: {
+    // 新闻列表
     listCon: {
       require: true
     },
+    // 是否可以请求更多
     ifLoadmore: {
       default: true
     },
+    // 是否请求
     flag: {
       require: true
     },
+    // 请求是否成功
     ifFlag: {
       require: true
     }
@@ -51,8 +54,7 @@ export default {
     ])
   },
   components: {
-    CLoadmore,
-    CTop
+    CLoadmore
   },
   filters: {
     dateFormat (time) {

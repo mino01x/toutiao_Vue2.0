@@ -6,15 +6,14 @@
         <span class="tag initial_collection" @click="initial">默认收藏</span>
         <span class="tag local_collection" @click="local">本地收藏</span>
         <span class="active" ref="active"></span>
-      </div> 
-      </Menu>
+      </div>
       <transition :name="direction">
         <c-newslist
           :listCon="collection"
           :ifLoadmore="false"
           v-if="collection_tag === 'initial'"></c-newslist> 
         <div v-else>
-          <ul class="local_collection_items">
+          <ul class="local_collection_items" v-if="localCollection.length">
             <li
               v-for="item in localCollection" 
               :key="item.id" 
@@ -28,6 +27,7 @@
               </div>
             </li>
           </ul>
+          <div v-else class="local_collection_none">空空如也,赶快去收藏吧~</div>
         </div>
       </transition>
       <Modal v-model="ifModal" class-name="del_dialog">
@@ -48,12 +48,10 @@
   </div>
 </template>
 <script>
-import CTemplate from '../components/Template.vue'
 import CNewslist from '../components/Newslist.vue'
 import CFooter from '../components/Footer.vue'
 import CBack from '../components/Back.vue'
 import axios from 'axios'
-import moment from 'moment'
 import { mapState, mapMutations } from 'vuex'
 
 export default {
@@ -69,20 +67,24 @@ export default {
     ...mapMutations([
       'REMOVE_COLLECTION'
     ]),
+    // 显示默认收藏标签
     initial () {
       this.collection_tag = 'initial'
       this.direction = 'content-right'
       this.$refs.active.style.transform = 'translateX(0)'
     },
+    // 显示本地收藏标签
     local () {
       this.collection_tag = 'local'
       this.direction = 'content-left'
       this.$refs.active.style.transform = 'translateX(2rem)'
     },
+    // 弹出对话框选择是否删除收藏
     removeCollection (id) {
       this.ifModal = true
       this.id = id
     },
+    // 删除收藏
     del () {
       this.REMOVE_COLLECTION(this.id)
       this.ifModal = false
@@ -91,7 +93,6 @@ export default {
     }
   },
   components: {
-    CTemplate,
     CFooter,
     CBack,
     CNewslist
@@ -102,17 +103,9 @@ export default {
       'localCollection'
     ])
   },
-  filters: {
-    dateFormat (time) {
-      if (!time) {
-        return false
-      }
-      return moment(time).startOf('minute').fromNow()
-    }
-  },
   created () {
     if (this.collection.length > 0) return false
-    axios.get('/static/collect.json').then(res => {
+    axios.get('./static/collect.json').then(res => {
       this.$store.commit('GET_COLLECTION', res.data.data)
     })
   }
@@ -149,8 +142,16 @@ export default {
       transition: transform 0.6s ease;
     }
   }
+  .local_collection_none {
+    @include font-dpr(16px);
+    text-align: center;
+    margin-top: px2rem(80px);
+    color: #aaa;
+    width: 100vw;
+  }
   .local_collection_items {
-    padding: px2rem(20px);
+    padding: 0 px2rem(20px);
+    width: 100vw;
   }
   .local_collection_item {
     height: px2rem(160px);
@@ -158,13 +159,13 @@ export default {
     align-items: center;
     position: relative;
     border-bottom: 1px solid #ddd;
+    width: 100%;
   }
   .local_collection_img {
     width: px2rem(100px);
     height: px2rem(100px);
   }
   .local_collection_title {
-    // background: #ddd;
     @include font-dpr(14px);
     width: px2rem(440px);
     padding: 0 px2rem(20px);

@@ -6,7 +6,6 @@
        </keep-alive> 
      </transition> 
      <c-top></c-top>
-    <!-- <component :is="footer"></component> -->
   </div>
 </template>
 
@@ -30,10 +29,6 @@ export default {
       console.log(this.$route.path)
       return 'c-footer'
     }
-    // page () {
-    //   console.log(this.$route.)
-    //   return 'content'
-    // }
   },
   watch: {
     $route (to, from) {
@@ -44,14 +39,8 @@ export default {
       } else {
         this.page = 'fadeIn'
       }
-      // this.page = to.path.includes('content') || from.path.includes('content') ? 'content' : ''
     }
   }
-  // beforeRouteUpdate (to, from, next) {
-  //   console.log('beforeRouteUpdate')
-  //   this.page = to.path.includes('content') ? 'content' : ''
-  //   // next()
-  // }
 }
 </script>
 

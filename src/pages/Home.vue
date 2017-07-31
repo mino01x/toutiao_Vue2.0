@@ -7,7 +7,7 @@
 					<div class="search_input">搜索...</div>
 			</router-link>
 			<div ref="refresh" class="refresh_icon">
-				<Icon type="android-refresh"></Icon>
+				<Icon type="android-refresh" color="green"></Icon>
 			</div>
 		</div>
 		<div class="content home_content">
@@ -28,15 +28,12 @@
 </template>
 
 <script>
-import CTemplate from '../components/Template.vue'
 import CFooter from '../components/Footer.vue'
 import CLoading from '../components/Loading.vue'
 import CWarning from '../components/Warning.vue'
-import CTop from '../components/Top.vue'
 import CLoadmore from '../components/Loadmore.vue'
 import CHomeNav from '../components/HomeNav.vue'
 import CNewslist from '../components/Newslist.vue'
-import moment from 'moment'
 import { mapActions, mapState } from 'vuex'
 
 export default {
@@ -46,54 +43,36 @@ export default {
 		}
 	},
 	components: {
-		CTemplate,
 		CFooter,
 		CLoading,
 		CWarning,
 		CLoadmore,
-    CTop,
     CHomeNav,
     CNewslist
 	},
 	created () {
-		console.log('home.vue created')
 		let that = this
-		let type = this.$route.params.type
-		if (Object.keys(this.list[type]).length > 0) return false
-		this.getNews({
-			type: type
-		})
+		// 向下滑动使得新闻刷新
 		document.body.addEventListener('touchstart', function (e) {
 			if (!that.$route.params.type) return false
-			that.touchPosition = e.touches[0].pageY
-			that.$refs.refresh.style.transition = ''
+			if (document.body.scrollTop <= 0) {
+				console.log(document.body.scrollTop)
+				that.touchPosition = e.touches[0].pageY
+				that.$refs.refresh.style.transition = ''
+				document.body.addEventListener('touchmove', that.touchmove)
+				document.body.addEventListener('touchend', that.touchend)
+			}
 		})
-		document.body.addEventListener('touchmove', function (e) {
-			if (!that.$route.params.type) return false
-			const disY = e.touches[0].pageY - that.touchPosition
-			const rotate = disY / 300 * 360
-			if (disY > 200 || disY < 30) return false
-			that.$refs.refresh.style.transform = `translate(-50%, ${disY}px) rotate(${rotate}deg)`
-		})
-		document.body.addEventListener('touchend', function (e) {
-			if (!that.$route.params.type) return false
-			const disY = e.changedTouches[0].pageY - that.touchPosition
-			if (disY < 30) return false
-			that.$refs.refresh.style.transform = ''
-			that.$refs.refresh.style.transition = 'transform 0.5s linear'
-			if (disY < 200) return false
-			console.log(that.$route.params)
-			that.refreshNews({
-				type: that.$route.params.type
-			})
+		let type = this.$route.params.type
+		// if (Object.keys(this.list[type]).length > 0) return false
+		this.getNews({
+			type: type
 		})
 	},
 	watch: {
 		$route (to, from) {
-			console.log('i am watching in home.vue')
 			if (to.path.includes('home')) {
 				const type = to.params.type
-				console.log(type)
 				if (Object.keys(this.list[type]).length > 0) {
 					this.$store.state.ifReturnMsg = true
 					return false
@@ -105,7 +84,6 @@ export default {
 		},
 		ifReturnRefresh (val, oldVal) {
 			if (val && this.newsLength) {
-				console.log(this.newsLength)
 				this.$Message.success(`为您刷新${this.newsLength}条信息`)
 			}
 		}
@@ -118,6 +96,26 @@ export default {
 		]),
 		loadmoreNews () {
 			this.getMoreNews({
+				type: this.$route.params.type
+			})
+		},
+		touchmove (e) {
+			if (!this.$route.params.type) return false
+			const disY = e.touches[0].pageY - this.touchPosition
+			const rotate = disY / 300 * 360
+			if (disY < 30) return false
+			this.$refs.refresh.style.transform = `translate(-50%, ${Math.min(disY, 200)}px) rotate(${rotate}deg)`
+		},
+		touchend (e) {
+			document.body.removeEventListener('touchmove', this.touchmove)
+			document.body.removeEventListener('touchend', this.touchend)
+			if (!this.$route.params.type) return false
+			const disY = e.changedTouches[0].pageY - this.touchPosition
+			if (disY < 30) return false
+			this.$refs.refresh.style.transform = ''
+			this.$refs.refresh.style.transition = 'transform 0.5s linear'
+			if (disY < 200) return false
+			this.refreshNews({
 				type: this.$route.params.type
 			})
 		}
@@ -135,14 +133,6 @@ export default {
 		listCon () {
 			return this.list[this.$route.params.type || '__all__']
 		}
-	},
-	filters: {
-		dateFormat (time) {
-			if (!time) {
-				return ''
-			}
-			return moment(time).startOf('minute').fromNow()
-		}
 	}
 }
 </script>
@@ -153,7 +143,6 @@ export default {
 		background: red;
 		.refresh_icon {
 			font-size: px2rem(50px);
-			color: lightgreen;
 			position: absolute;
 			top: px2rem(80px);
 			left: 50%;

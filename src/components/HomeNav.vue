@@ -1,13 +1,19 @@
 <template>
   <div class="home_nav">
     <ul class="home_nav_list">
-      <router-link 
+      <!-- <router-link 
         v-for="(item, index) in nav" 
         class="home_nav_item" 
         :key="index"
         :to="item.url + '/' +item.type">
         <li>{{item.text}}</li>
-      </router-link>
+      </router-link> -->
+      <router-link 
+        v-for="(item, index) in nav" 
+        class="home_nav_item" 
+        :key="index"
+        :to="item.url + '/' +item.type"
+        tag="li">{{item.text}}</router-link>
     </ul>
   </div>
 </template>
@@ -59,7 +65,7 @@ export default {
     flex-basis: px2rem(90px);
     color: black;
   }
-  a.router-link-active {
+  .router-link-active {
     color: tomato;
     font-weight: bold;
   }

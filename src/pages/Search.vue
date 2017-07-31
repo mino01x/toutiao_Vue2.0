@@ -52,11 +52,6 @@
         ifHistory: false
       }
     },
-    // beforeRouteEnter (to, from, next) {
-    //   next(vm => {
-    //     vm.$refs.search.focus()
-    //   })
-    // },
     methods: {
       ...mapMutations([
         'ADD_HISTORY',
@@ -120,7 +115,7 @@
 
   .search_content {
     padding-top: px2rem(160px);
-    padding-bottom: px2rem(0)
+    padding-bottom: 0;
   }
   .search_box {
     background: red;
@@ -141,7 +136,8 @@
   .history {
     position: absolute;
     top: px2rem(80px);
-    left: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 1000;
     background: #fafafa;
     width: 8rem;
@@ -190,7 +186,7 @@
         text-align: center;
         border-right: 1px solid #777;
         height: px2rem(40px);
-        line-height: pxrem(40px);
+        line-height: px2rem(40px);
         &:last-child {
           border-right: 0;
         }

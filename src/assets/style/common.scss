@@ -1,3 +1,4 @@
+// 字体的转换
 @mixin font-dpr ($font-size) {
   font-size: $font-size;
   [data-dpr="2"] & {
@@ -7,7 +8,7 @@
     font-size: $font-size * 3;
   }
 }
-
+// px转换为rem
 @function px2rem ($px, $base-font-size: 64px) {
   @if unitless($px) {
     @warn "Assuming #{$px} to be in pixels, attempting to convert it into pixels for you";

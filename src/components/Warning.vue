@@ -10,6 +10,7 @@
 <script>
 export default {
   methods: {
+    // 重新加载
     reload () {
       this.$emit('reload')
     }
