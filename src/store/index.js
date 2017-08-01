@@ -43,7 +43,8 @@ const state = {
                 ? JSON.parse(localStorage.getItem('chan_collection'))
                 : [],
     newsLength: 0,                  // 刷新返回的新闻数量
-    ifReturnRefresh: false          // 是否刷新成功
+    ifReturnRefresh: false,         // 是否刷新成功
+    type: ''                        // 记录从主页离开时的新闻类型
 }
 
 export default new Vuex.Store({

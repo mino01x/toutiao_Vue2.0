@@ -14,8 +14,8 @@ import VueLazyload from 'vue-lazyload'
 
 Vue.use(iView)
 Vue.use(VueLazyload, {
-  loading: './static/imgloading.jpg',
-  error: './static/imgerror.jpg',
+  loading: '/static/imgloading.jpg',
+  error: '/static/imgerror.jpg',
   preLoad: 1,
   attempt: 1
 })

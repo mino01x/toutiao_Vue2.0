@@ -46,20 +46,11 @@ const routes = [
   }
 ]
 
-// const scrollBehavior = (to, from, savedPosition) => {
-//   if (savedPosition) {
-//     return savedPosition
-//   } else if (to.meta.savedPosition) {
-//     console.log("the route's savedPosition", to.meta.savedPosition.y)
-//     return to.meta.savedPosition
-//   } else {
-//     console.log('no savedPosition')
-//   }
-// }
-
+/*
 const router = new Router({
   routes
 })
+
 // 保存滚动条原来的位置
 router.beforeEach((to, from, next) => {
   from.meta.savedPosition = document.body.scrollTop || document.documentElement.scrollTop
@@ -98,4 +89,31 @@ function scroll (to, from, time) {
   }
   // document.removeEventListener('transitionend', scroll)
 }
+*/
+
+const scrollBehavior = (to, from, savedPosition) => {
+  from.meta.savedPosition = document.body.scrollTop || document.documentElement.scrollTop
+  if (savedPosition) {
+    return savedPosition
+  } else if (to.meta.savedPosition) {
+    const y = to.meta.savedPosition
+    const position = {
+      x: 0,
+      y
+    }
+    setTimeout(() => {
+      window.scrollTo(0, y)
+    }, 50)
+    return position
+  } else {
+    return {x: 0, y: 0}
+  }
+}
+
+const router = new Router({
+  mode: 'history',
+  routes,
+  scrollBehavior
+})
+
 export default router

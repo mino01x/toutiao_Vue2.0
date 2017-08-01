@@ -31,3 +31,5 @@ export const REFRESH_NEWS = 'REFRESH_NEWS'
 export const REFRESH_LENGTH = 'REFRESH_LENGTH'
 // 是否返回刷新
 export const RETURN_REFRESH = 'RETURN_REFRESH'
+
+export const LOG_TYPE = 'LOG_TYPE'

@@ -13,21 +13,47 @@
   animation: ballout 0.4s;
 }
 
-// 页面过渡
-.content-right-enter-active, .content-right-leave-active,
-.content-left-enter-active, .content-left-leave-active {
+// 收藏过渡
+.collection-right-enter-active, .collection-right-leave-active,
+.collection-left-enter-active, .collection-left-leave-active {
   position: fixed;
-  transition: transform 0.6s linear;
+  transition: transform 0.8s linear;
   height: 100vh;
   overflow: hidden;
 }
-.content-right-leave-active,
-.content-left-enter {
+.collection-right-leave-active,
+.collection-left-enter {
   transform: translateX(100vw)
 }
-.content-right-enter,
-.content-left-leave-active {
+.collection-right-enter,
+.collection-left-leave-active {
   transform: translateX(-100vw)
+}
+
+// 页面过度
+.content-right-enter-to, .content-left-leave-to {
+  transition: transform 0.8s ease;
+  position: fixed;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 10000;
+}
+.content-right-enter, .content-left-leave-to {
+  transform: translateX(-100vw);
+}
+.content-right-leave-to {
+  transition: opacity 0.8s linear;
+  position: fixed;
+  z-index: 0;
+  opacity: 0;
+}
+.content-left-enter-to {
+  transition: opacity 0.8s linear;
+  position: relative;
+  z-index: 0;
+}
+.content-left-enter {
+  opacity: 0;
 }
 
 // 历史

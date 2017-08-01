@@ -95,5 +95,9 @@ export default {
   [type.REFRESH_LENGTH] (state, length) {
     state.newsLength = length
     state.ifReturnRefresh = true
+  },
+  // 记录从主页离开时的新闻类型
+  [type.LOG_TYPE] (state, type) {
+    state.type = type
   }
 }

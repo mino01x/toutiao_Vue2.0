@@ -132,6 +132,12 @@ export default {
 		listCon () {
 			return this.list[this.$route.params.type || '__all__']
 		}
+	},
+	// 离开页面时，记录新闻的类型
+	beforeRouteLeave (to, from, next) {
+		console.log('home.vue beforerouteleave', from)
+		this.$store.commit('LOG_TYPE', from.params.type)
+		next()
 	}
 }
 </script>

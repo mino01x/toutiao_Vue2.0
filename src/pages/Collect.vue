@@ -70,13 +70,13 @@ export default {
     // 显示默认收藏标签
     initial () {
       this.collection_tag = 'initial'
-      this.direction = 'content-right'
+      this.direction = 'collection-right'
       this.$refs.active.style.transform = 'translateX(0)'
     },
     // 显示本地收藏标签
     local () {
       this.collection_tag = 'local'
-      this.direction = 'content-left'
+      this.direction = 'collection-left'
       this.$refs.active.style.transform = 'translateX(2rem)'
     },
     // 弹出对话框选择是否删除收藏

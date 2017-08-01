@@ -1,6 +1,6 @@
 <template>
   <div class="footer">
-    <router-link to="/home" class="navItem">
+    <router-link :to="home" class="navItem">
       <Icon type="home" class="navItem-icon"></Icon>
       <span>首页</span>
     </router-link>
@@ -18,6 +18,15 @@
     </router-link>
   </div>
 </template>
+<script>
+export default {
+  computed: {
+    home () {
+      return '/home/' + this.$store.state.type || '/home/__all__'
+    }
+  }
+}
+</script>
 
 <style lang="scss">
   @import '../assets/style/common.scss';
