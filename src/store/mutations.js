@@ -99,5 +99,13 @@ export default {
   // 记录从主页离开时的新闻类型
   [type.LOG_TYPE] (state, type) {
     state.type = type
+  },
+  // 保存主页新闻类型跳转是页面滚动条的位置
+  [type.SAVE_POSITION] (state, { type, y }) {
+    state.typePositions[type] = y
+  },
+  // 保存主页导航栏的滚动条
+  [type.SAVE_NAV] (state, x) {
+    state.navPosition = x
   }
 }

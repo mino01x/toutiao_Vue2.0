@@ -37,6 +37,7 @@
   height: 100vh;
   overflow: hidden;
   z-index: 10000;
+  background: #fff;
 }
 .content-right-enter, .content-left-leave-to {
   transform: translateX(-100vw);

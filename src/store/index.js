@@ -44,7 +44,9 @@ const state = {
                 : [],
     newsLength: 0,                  // 刷新返回的新闻数量
     ifReturnRefresh: false,         // 是否刷新成功
-    type: ''                        // 记录从主页离开时的新闻类型
+    type: '',                       // 记录从主页离开时的新闻类型
+    typePositions: [],
+    navPosition: 0
 }
 
 export default new Vuex.Store({

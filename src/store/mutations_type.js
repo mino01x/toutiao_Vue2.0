@@ -33,3 +33,7 @@ export const REFRESH_LENGTH = 'REFRESH_LENGTH'
 export const RETURN_REFRESH = 'RETURN_REFRESH'
 
 export const LOG_TYPE = 'LOG_TYPE'
+
+export const SAVE_POSITION = 'SAVE_POSITION'
+
+export const SAVE_NAV = 'SAVE_NAV'

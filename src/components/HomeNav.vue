@@ -1,13 +1,6 @@
 <template>
   <div class="home_nav">
-    <ul class="home_nav_list">
-      <!-- <router-link 
-        v-for="(item, index) in nav" 
-        class="home_nav_item" 
-        :key="index"
-        :to="item.url + '/' +item.type">
-        <li>{{item.text}}</li>
-      </router-link> -->
+    <ul class="home_nav_list" ref="homenav">
       <router-link 
         v-for="(item, index) in nav" 
         class="home_nav_item" 
@@ -34,7 +27,18 @@ export default {
 				{url: '/home', type: 'news_military', text: '军事'},
 				{url: '/home', type: 'news_world', text: '国际'},
 				{url: '/home', type: 'news_fashion', text: '时尚'}
-			]
+      ],
+      navPosition: 0
+    }
+  },
+  watch: {
+    $route (to, from) {
+      if (!to.path.includes('home') && from.path.includes('home')) {
+        this.$store.commit('SAVE_NAV', this.$refs.homenav.scrollLeft)
+      } else if (to.path.includes('home') && !from.path.includes('home')) {
+        // this.$refs.homenav.scrollTo(this.$store.state.navPosition, 0)
+        this.$refs.homenav.scrollLeft = this.$store.state.navPosition
+      }
     }
   }
 }

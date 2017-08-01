@@ -72,6 +72,21 @@ export default {
 		$route (to, from) {
 			if (to.path.includes('home')) {
 				const type = to.params.type
+				// 滚动条的控制
+				this.$store.commit('SAVE_POSITION', {
+					type: from.params.type,
+					y: document.body.scrollTop || document.documentElement.scrollTop
+				})
+				if (this.typePositions[type]) {
+					setTimeout(() => {
+						window.scrollTo(0, this.typePositions[type])
+					}, 80)
+				} else if (from.path.includes('home')) {
+					setTimeout(() => {
+						window.scrollTo(0, 0)
+					}, 80)
+				}
+
 				if (Object.keys(this.list[type]).length > 0) {
 					this.$store.state.ifReturnMsg = true
 					return false
@@ -127,7 +142,8 @@ export default {
 			'loadmore',
 			'ifReturnMore',
 			'newsLength',
-			'ifReturnRefresh'
+			'ifReturnRefresh',
+			'typePositions'
 		]),
 		listCon () {
 			return this.list[this.$route.params.type || '__all__']
@@ -135,7 +151,6 @@ export default {
 	},
 	// 离开页面时，记录新闻的类型
 	beforeRouteLeave (to, from, next) {
-		console.log('home.vue beforerouteleave', from)
 		this.$store.commit('LOG_TYPE', from.params.type)
 		next()
 	}
