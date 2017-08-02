@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import * as type from '../store/mutations_type.js'
+
 export default {
   data () {
     return {
@@ -34,10 +36,12 @@ export default {
   watch: {
     $route (to, from) {
       if (!to.path.includes('home') && from.path.includes('home')) {
-        this.$store.commit('SAVE_NAV', this.$refs.homenav.scrollLeft)
+        this.$store.commit(type.SAVE_POSITION, {
+          name: 'homenav',
+          position: this.$refs.homenav.scrollLeft
+        })
       } else if (to.path.includes('home') && !from.path.includes('home')) {
-        // this.$refs.homenav.scrollTo(this.$store.state.navPosition, 0)
-        this.$refs.homenav.scrollLeft = this.$store.state.navPosition
+        this.$refs.homenav.scrollLeft = this.$store.state.positions.homenav
       }
     }
   }

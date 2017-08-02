@@ -72,21 +72,6 @@ export default {
 		$route (to, from) {
 			if (to.path.includes('home')) {
 				const type = to.params.type
-				// 滚动条的控制
-				this.$store.commit('SAVE_POSITION', {
-					type: from.params.type,
-					y: document.body.scrollTop || document.documentElement.scrollTop
-				})
-				if (this.typePositions[type]) {
-					setTimeout(() => {
-						window.scrollTo(0, this.typePositions[type])
-					}, 80)
-				} else if (from.path.includes('home')) {
-					setTimeout(() => {
-						window.scrollTo(0, 0)
-					}, 80)
-				}
-
 				if (Object.keys(this.list[type]).length > 0) {
 					this.$store.state.ifReturnMsg = true
 					return false

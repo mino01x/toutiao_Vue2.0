@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-     <transition :name="page"> 
-       <keep-alive> 
+    <transition :name="page">
+      <keep-alive>
         <router-view class="container"></router-view>
-       </keep-alive> 
-     </transition> 
-     <c-top></c-top>
+      </keep-alive>
+    </transition>
+    <c-top></c-top>
   </div>
 </template>
 

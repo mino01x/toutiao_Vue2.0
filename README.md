@@ -40,38 +40,38 @@
 ```
 |- src
    |- assets
-      |- image  // 项目图片
+      |- image                   // 项目图片
       |- style
-         |- common.scss  // 移动端的单位的转换
-         |- global.scss  // 全局样式
-         |- newsList.scss  // 新闻列表的样式
-         |- transition.scss  // 过渡样式
-   |- components  // 组件
-      |- Back.vue  // 返回
-      |- Comment.vue  // 评论
-      |- Footer.vue  // 页脚
-      |- HomeNav.vue  // 新闻类型导航
-      |- Loading.vue  // 加载
-      |- Loadingmore.vue  // 加载更多
-      |- Nav.vue  // 导航
-      |- Newslist.vue  // 新闻列表
-      |- Top.vue  // 返回顶部
-      |- Warning.vue  // 出错提醒
-   |- pages  // 主体页面
-      |- About.vue // 信息页
-      |- Collect.vue  // 收藏页
-      |- Content.vue  // 文章页
-      |- Home.vue  // 主页
-      |- Search.vue  // 收藏页
-      |- Session.vue  // 段子页
-   |- router  // 路由
-   |- store  // 状态管理
+         |- common.scss          // 移动端的单位的转换
+         |- global.scss          // 全局样式
+         |- newsList.scss        // 新闻列表的样式
+         |- transition.scss      // 过渡样式
+   |- components                 // 组件
+      |- Back.vue                // 返回
+      |- Comment.vue             // 评论
+      |- Footer.vue              // 页脚
+      |- HomeNav.vue             // 新闻类型导航
+      |- Loading.vue             // 加载
+      |- Loadingmore.vue         // 加载更多
+      |- Nav.vue                 // 导航
+      |- Newslist.vue            // 新闻列表
+      |- Top.vue                 // 返回顶部
+      |- Warning.vue             // 出错提醒
+   |- pages                      // 主体页面
+      |- About.vue               // 信息页
+      |- Collect.vue             // 收藏页
+      |- Content.vue             // 文章页
+      |- Home.vue                // 主页
+      |- Search.vue              // 收藏页
+      |- Session.vue             // 段子页
+   |- router                     // 路由
+   |- store                      // 状态管理
    |- App.vue
-   |- main.js  // 入口文件
+   |- main.js                    // 入口文件
 |- static
-   |- collect.json  // 初始收藏
-   |- imgerror.jpg  // 懒加载错误图片
-   |- imgloading.jpg  // 懒加载中图片
+   |- collect.json               // 初始收藏
+   |- imgerror.jpg               // 懒加载错误图片
+   |- imgloading.jpg             // 懒加载中图片
 ```
 更多细节在源码中会有一些注释
 ## API

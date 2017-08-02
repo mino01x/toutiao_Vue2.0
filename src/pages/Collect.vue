@@ -100,7 +100,8 @@ export default {
   computed: {
     ...mapState([
       'collection',
-      'localCollection'
+      'localCollection',
+      'positions'
     ])
   },
   created () {

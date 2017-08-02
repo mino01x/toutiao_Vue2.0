@@ -100,12 +100,8 @@ export default {
   [type.LOG_TYPE] (state, type) {
     state.type = type
   },
-  // 保存主页新闻类型跳转是页面滚动条的位置
-  [type.SAVE_POSITION] (state, { type, y }) {
-    state.typePositions[type] = y
-  },
-  // 保存主页导航栏的滚动条
-  [type.SAVE_NAV] (state, x) {
-    state.navPosition = x
+  // 保存网页离开时的位置
+  [type.SAVE_POSITION] (state, {name, position}) {
+    state.positions[name] = position
   }
 }
